@@ -1,6 +1,7 @@
 package models
 
 import (
+	"encoding/json"
 	"time"
 )
 
@@ -16,6 +17,21 @@ type Guide struct {
 	UpdatedAt     time.Time `json:"updated_at"`
 	IsAIGenerated bool      `json:"is_ai_generated"`
 	Version       string    `gorm:"type:varchar(50)" json:"version"`
+}
+
+// MarshalJSON implements the json.Marshaler interface for Guide.
+func (g Guide) MarshalJSON() ([]byte, error) {
+	type Alias Guide // Create an alias to avoid infinite recursion
+
+	return json.Marshal(&struct {
+		Alias
+		CreatedAt string `json:"created_at"` // Override CreatedAt with string type
+		UpdatedAt string `json:"updated_at"` // Override UpdatedAt with string type
+	}{
+		Alias:     (Alias)(g),
+		CreatedAt: g.CreatedAt.Format("2006年01月02日"), // Format to YYYY年MM月DD日
+		UpdatedAt: g.UpdatedAt.Format("2006年01月02日"), // Format to YYYY年MM月DD日
+	})
 }
 
 // UserQuery represents a user's query to the AI bot.

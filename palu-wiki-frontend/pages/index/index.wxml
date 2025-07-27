@@ -18,16 +18,16 @@
     </block>
   </view>
   <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
+    
   </view>
 
-  <view class="section-card" bindtap="goToGuideList">
+  <view class="section-card" bindtap="goToGuideList" style="height: 264rpx; display: flex; box-sizing: border-box">
     <text class="section-title">查看最新攻略</text>
     <text class="section-description">浏览AI为您创作的幻兽帕鲁攻略</text>
   </view>
 
   <view class="chat-container">
-    <scroll-view scroll-y style="height: 200rpx;" scroll-into-view="{{toView}}" scroll-with-animation="true" class="message-list">
+    <scroll-view scroll-y style="height: 300rpx; display: block; box-sizing: border-box" scroll-into-view="{{toView}}" scroll-with-animation="true" class="message-list">
       <block wx:for="{{messages}}" wx:key="index">
         <view id="msg-{{index}}" class="message {{item.role}}">
           <text>{{item.content}}</text>

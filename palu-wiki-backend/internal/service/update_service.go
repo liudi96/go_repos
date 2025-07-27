@@ -97,7 +97,7 @@ func (s *UpdateService) ProcessUpdates(updates []models.OfficialUpdate) error {
 				// Continue processing other updates even if Gemini fails for one
 			} else {
 				newGuide := models.Guide{
-					Title:         "【AI生成】" + update.Title,
+					Title:         update.Title,
 					Content:       generatedContent,
 					Category:      "官方更新",
 					SourceURL:     update.SourceURL,

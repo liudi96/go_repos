@@ -40,7 +40,7 @@ func (h *AdminHandler) CreateGuideTopic(c *gin.Context) {
 	// For simplicity, we'll call a method on updateService.
 	// In a real-world scenario, this might be an asynchronous task.
 	dummyUpdate := models.OfficialUpdate{
-		Title:       fmt.Sprintf("AI生成攻略主题: %s", req.Topic),
+		Title:       fmt.Sprintf("%s", req.Topic),
 		Content:     fmt.Sprintf("根据主题“%s”生成的攻略。", req.Topic),
 		SourceURL:   fmt.Sprintf("admin-topic-%s-%d", req.Topic, time.Now().UnixNano()), // Generate a unique URL
 		PublishDate: time.Now(),
