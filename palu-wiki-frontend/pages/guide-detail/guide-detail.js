@@ -48,13 +48,14 @@ Page({
         })
       },
     
-      // Helper function to format content for rich-text component
-      formatContentForRichText(content) {
-        // Simple conversion: replace newlines with <br/> for basic paragraph breaks
-        // For more complex formatting (e.g., Markdown to HTML), you'd need a more robust parser
-        const htmlContent = content.replace(/\n/g, '<br/>');
-        return htmlContent;
-      }
-    })
-  }
+      })
+    },
+
+    // Helper function to format content for rich-text component
+    formatContentForRichText(content) {
+      // Simple conversion: replace newlines with <br/> for basic paragraph breaks
+      // For more complex formatting (e.g., Markdown to HTML), you'd need a more robust parser
+      const htmlContent = content.replace(/\n/g, '<br/>');
+      return htmlContent;
+    }
 })

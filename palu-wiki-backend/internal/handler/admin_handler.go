@@ -6,6 +6,7 @@ import (
 	"palu-wiki-backend/internal/models"
 	"palu-wiki-backend/internal/repository"
 	"palu-wiki-backend/internal/service"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -39,9 +40,10 @@ func (h *AdminHandler) CreateGuideTopic(c *gin.Context) {
 	// For simplicity, we'll call a method on updateService.
 	// In a real-world scenario, this might be an asynchronous task.
 	dummyUpdate := models.OfficialUpdate{
-		Title:   fmt.Sprintf("AI生成攻略主题: %s", req.Topic),
-		Content: fmt.Sprintf("根据主题“%s”生成的攻略。", req.Topic),
-		// PublishDate and SourceURL can be set as needed, or left default
+		Title:       fmt.Sprintf("AI生成攻略主题: %s", req.Topic),
+		Content:     fmt.Sprintf("根据主题“%s”生成的攻略。", req.Topic),
+		SourceURL:   fmt.Sprintf("admin-topic-%s-%d", req.Topic, time.Now().UnixNano()), // Generate a unique URL
+		PublishDate: time.Now(),
 	}
 
 	// Call the update service to process this "update" (which is our new topic)
