@@ -1,0 +1,43 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="userinfo">
+    <block wx:if="{{canIUseOpenData}}">
+      <view class="userinfo-avatar" bindtap="bindViewTap">
+        <open-data type="userAvatarUrl"></open-data>
+      </view>
+      <open-data type="userNickName"></open-data>
+    </block>
+    <block wx:elif="{{!hasUserInfo}}">
+      <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 获取头像昵称 </button>
+      <button wx:elif="{{canIUse}}" open-type="getUserInfo" bindtap="getUserInfo"> 获取头像昵称 </button>
+      <view wx:else> 请升级微信版本 </view>
+    </block>
+    <block wx:else>
+      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+  </view>
+  <view class="usermotto">
+    <text class="user-motto">{{motto}}</text>
+  </view>
+
+  <view class="section-card" bindtap="goToGuideList">
+    <text class="section-title">查看最新攻略</text>
+    <text class="section-description">浏览AI为您创作的幻兽帕鲁攻略</text>
+  </view>
+
+  <view class="chat-container">
+    <scroll-view scroll-y style="height: 600rpx;" scroll-into-view="{{toView}}" scroll-with-animation="true" class="message-list">
+      <block wx:for="{{messages}}" wx:key="index">
+        <view id="msg-{{index}}" class="message {{item.role}}">
+          <text>{{item.content}}</text>
+        </view>
+      </block>
+    </scroll-view>
+
+    <view class="input-area">
+      <textarea class="input-box" placeholder="请输入您的问题..." bindinput="onInput" value="{{inputValue}}" auto-height show-confirm-bar="{{false}}" />
+      <button class="send-button" bindtap="sendMessage">发送</button>
+    </view>
+  </view>
+</view>

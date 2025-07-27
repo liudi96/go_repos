@@ -1,0 +1,48 @@
+# Go
+*.exe
+*.dll
+*.so
+*.dylib
+*.o
+*.a
+*.mod
+*.sum
+*.prof
+*.test
+*.out
+/vendor/
+
+# IDEs
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
+.localized
+Thumbs.db
+
+# Logs
+*.log
+log/
+
+# Environment variables
+.env
+.env.*
+*.env
+
+# WeChat Mini Program
+palu-wiki-frontend/node_modules/
+palu-wiki-frontend/dist/
+palu-wiki-frontend/.vscode/
+palu-wiki-frontend/.idea/
+palu-wiki-frontend/*.log
+palu-wiki-frontend/tmp/
+palu-wiki-frontend/*.tmp
+palu-wiki-frontend/*.bak
+palu-wiki-frontend/*.swp
+palu-wiki-frontend/miniprogram_npm/
+palu-wiki-frontend/project.private.config.json
+
+#output
+palu-wiki-backend/server_app
+palu-wiki-backend/palu_wiki.db

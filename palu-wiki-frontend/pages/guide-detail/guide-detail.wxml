@@ -1,0 +1,13 @@
+<!--pages/guide-detail/guide-detail.wxml-->
+<view class="container">
+  <view wx:if="{{loading}}" class="loading">加载中...</view>
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+  <block wx:if="{{guide}}">
+    <text class="guide-title">{{guide.title}}</text>
+    <text class="guide-category">分类: {{guide.category}}</text>
+    <text class="guide-updated">更新时间: {{guide.updated_at}}</text>
+    <view class="guide-content">
+      <rich-text nodes="{{guide.content}}"></rich-text>
+    </view>
+  </block>
+</view>

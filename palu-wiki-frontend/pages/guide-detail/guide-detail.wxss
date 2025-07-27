@@ -1,0 +1,106 @@
+/* pages/guide-detail/guide-detail.wxss */
+.container {
+  padding: 30rpx;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+}
+
+.guide-title {
+  font-size: 48rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+  text-align: center;
+  color: #333;
+}
+
+.guide-category, .guide-updated {
+  font-size: 28rpx;
+  color: #888;
+  text-align: center;
+  margin-bottom: 15rpx;
+}
+
+.guide-content {
+  margin-top: 40rpx;
+  padding: 20rpx;
+  background-color: #fff;
+  border-radius: 12rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+  line-height: 1.8; /* Increased line height for better readability */
+  color: #333;
+  word-wrap: break-word; /* Ensure long words break */
+}
+
+/* Styles for rich-text content within .guide-content */
+.guide-content rich-text {
+  font-size: 32rpx;
+}
+
+.guide-content rich-text image {
+  max-width: 100%; /* Ensure images are responsive */
+  height: auto;
+  display: block; /* Remove extra space below images */
+  margin: 20rpx auto; /* Center images and add vertical spacing */
+  border-radius: 8rpx;
+}
+
+.guide-content rich-text p {
+  margin-bottom: 1em; /* Add spacing between paragraphs */
+}
+
+.guide-content rich-text h1,
+.guide-content rich-text h2,
+.guide-content rich-text h3,
+.guide-content rich-text h4,
+.guide-content rich-text h5,
+.guide-content rich-text h6 {
+  font-weight: bold;
+  margin-top: 1.5em;
+  margin-bottom: 0.8em;
+  line-height: 1.2;
+}
+
+.guide-content rich-text h1 { font-size: 40rpx; }
+.guide-content rich-text h2 { font-size: 36rpx; }
+.guide-content rich-text h3 { font-size: 34rpx; }
+.guide-content rich-text h4 { font-size: 32rpx; }
+.guide-content rich-text h5 { font-size: 30rpx; }
+.guide-content rich-text h6 { font-size: 28rpx; }
+
+.guide-content rich-text ul,
+.guide-content rich-text ol {
+  margin-left: 1.5em;
+  margin-bottom: 1em;
+}
+
+.guide-content rich-text li {
+  margin-bottom: 0.5em;
+}
+
+.guide-content rich-text strong {
+  font-weight: bold;
+}
+
+.guide-content rich-text em {
+  font-style: italic;
+}
+
+.guide-content rich-text a {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.guide-content rich-text code {
+  font-family: monospace;
+  background-color: #eee;
+  padding: 0.2em 0.4em;
+  border-radius: 4rpx;
+}
+
+.guide-content rich-text pre {
+  background-color: #eee;
+  padding: 1em;
+  border-radius: 8rpx;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}

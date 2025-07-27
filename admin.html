@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>幻兽帕鲁攻略站后台管理</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #fdfdfd;
+        }
+        .section h2 {
+            color: #34495e;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        .form-group input[type="text"],
+        .form-group textarea {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .button {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #2980b9;
+        }
+        .guide-list {
+            margin-top: 20px;
+        }
+        .guide-item {
+            background-color: #ecf0f1;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        .guide-item h3 {
+            margin: 0;
+            color: #2c3e50;
+            font-size: 1.2em;
+        }
+        .guide-item .actions button {
+            background-color: #e74c3c;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-left: 10px;
+            transition: background-color 0.3s ease;
+        }
+        .guide-item .actions button:hover {
+            background-color: #c0392b;
+        }
+        .message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>幻兽帕鲁攻略站后台管理</h1>
+
+        <div class="section">
+            <h2>发布新攻略主题</h2>
+            <div class="form-group">
+                <label for="topicInput">攻略主题:</label>
+                <input type="text" id="topicInput" placeholder="例如：唤冬兽捕捉攻略，帕鲁配种公式大全">
+            </div>
+            <button class="button" onclick="createGuideTopic()">生成并发布攻略</button>
+            <div id="createMessage" class="message" style="display: none;"></div>
+        </div>
+
+        <div class="section">
+            <h2>已发布攻略列表</h2>
+            <div id="guideList" class="guide-list">
+                <!-- 攻略列表将在这里动态加载 -->
+                <p id="loadingGuides" style="text-align: center;">加载中...</p>
+            </div>
+            <div id="listMessage" class="message" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script>
+        const backendUrl = 'http://43.134.71.222:8080'; // 替换为您的后端服务公网IP和端口
+
+        document.addEventListener('DOMContentLoaded', fetchGuides);
+
+        async function fetchGuides() {
+            const guideListDiv = document.getElementById('guideList');
+            const loadingGuides = document.getElementById('loadingGuides');
+            const listMessage = document.getElementById('listMessage');
+            
+            loadingGuides.style.display = 'block';
+            listMessage.style.display = 'none';
+            listMessage.className = 'message';
+
+            try {
+                const response = await fetch(`${backendUrl}/api/v1/admin/guides`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    guideListDiv.innerHTML = ''; // Clear previous list
+                    if (data.data && data.data.length > 0) {
+                        data.data.forEach(guide => {
+                            const guideItem = document.createElement('div');
+                            guideItem.className = 'guide-item';
+                            guideItem.innerHTML = `
+                                <h3>${guide.title}</h3>
+                                <div class="actions">
+                                    <button onclick="deleteGuide(${guide.id})">删除</button>
+                                </div>
+                            `;
+                            guideListDiv.appendChild(guideItem);
+                        });
+                    } else {
+                        guideListDiv.innerHTML = '<p style="text-align: center;">暂无已发布攻略。</p>';
+                    }
+                } else {
+                    listMessage.textContent = `获取攻略列表失败: ${data.error || '未知错误'}`;
+                    listMessage.classList.add('error');
+                    listMessage.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error fetching guides:', error);
+                listMessage.textContent = `网络请求失败: ${error.message}`;
+                listMessage.classList.add('error');
+                listMessage.style.display = 'block';
+            } finally {
+                loadingGuides.style.display = 'none';
+            }
+        }
+
+        async function createGuideTopic() {
+            const topicInput = document.getElementById('topicInput');
+            const createMessage = document.getElementById('createMessage');
+            const topic = topicInput.value.trim();
+
+            if (!topic) {
+                createMessage.textContent = '请输入攻略主题！';
+                createMessage.classList.add('error');
+                createMessage.style.display = 'block';
+                return;
+            }
+
+            createMessage.style.display = 'none';
+            createMessage.className = 'message'; // Reset classes
+
+            try {
+                const response = await fetch(`${backendUrl}/api/v1/admin/guides/topic`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ topic: topic })
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    createMessage.textContent = data.message;
+                    createMessage.classList.add('success');
+                    topicInput.value = ''; // Clear input
+                    fetchGuides(); // Refresh list
+                } else {
+                    createMessage.textContent = `发布失败: ${data.error || '未知错误'}`;
+                    createMessage.classList.add('error');
+                }
+            } catch (error) {
+                console.error('Error creating guide topic:', error);
+                createMessage.textContent = `网络请求失败: ${error.message}`;
+                createMessage.classList.add('error');
+            } finally {
+                createMessage.style.display = 'block';
+            }
+        }
+
+        async function deleteGuide(id) {
+            if (!confirm('确定要删除这篇攻略吗？')) {
+                return;
+            }
+
+            const listMessage = document.getElementById('listMessage');
+            listMessage.style.display = 'none';
+            listMessage.className = 'message';
+
+            try {
+                const response = await fetch(`${backendUrl}/api/v1/admin/guides/${id}`, {
+                    method: 'DELETE'
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    listMessage.textContent = `攻略删除成功: ${data.message || ''}`;
+                    listMessage.classList.add('success');
+                    fetchGuides(); // Refresh list
+                } else {
+                    listMessage.textContent = `删除失败: ${data.error || '未知错误'}`;
+                    listMessage.classList.add('error');
+                }
+            } catch (error) {
+                console.error('Error deleting guide:', error);
+                listMessage.textContent = `网络请求失败: ${error.message}`;
+                listMessage.classList.add('error');
+            } finally {
+                listMessage.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

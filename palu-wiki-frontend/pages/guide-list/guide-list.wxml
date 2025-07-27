@@ -1,0 +1,17 @@
+<!--pages/guide-list/guide-list.wxml-->
+<view class="container">
+  <text class="title">幻兽帕鲁攻略</text>
+  <view wx:if="{{loading}}" class="loading">加载中...</view>
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+  <view class="guide-list">
+    <block wx:for="{{guides}}" wx:key="id">
+      <view class="guide-card" bindtap="goToGuideDetail" data-id="{{item.id}}">
+        <view class="card-content">
+          <text class="card-title">{{item.title}}</text>
+          <text class="card-category">{{item.category}}</text>
+          <text class="card-date">{{item.updated_at}}</text>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

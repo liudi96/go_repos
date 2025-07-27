@@ -1,0 +1,117 @@
+/**index.wxss**/
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx; /* Adjusted padding */
+  box-sizing: border-box;
+  background-color: #f0f2f5; /* Light background */
+}
+
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #aaa;
+  margin-bottom: 20rpx;
+}
+
+.userinfo-avatar {
+  overflow: hidden;
+  width: 128rpx;
+  height: 128rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+}
+
+.usermotto {
+  margin-top: 20rpx; /* Adjusted margin */
+  font-size: 32rpx;
+  color: #555;
+}
+
+.chat-container {
+  flex: 1; /* Take available space */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 12rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+  margin-top: 20rpx;
+  overflow: hidden; /* Ensure content stays within bounds */
+}
+
+.message-list {
+  flex: 1; /* Take available space */
+  padding: 20rpx;
+  box-sizing: border-box;
+}
+
+.message {
+  display: flex;
+  margin-bottom: 15rpx;
+  max-width: 80%;
+}
+
+.message text {
+  padding: 15rpx 25rpx;
+  border-radius: 20rpx;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.message.user {
+  justify-content: flex-end;
+  margin-left: auto;
+}
+
+.message.user text {
+  background-color: #007bff;
+  color: #fff;
+  border-bottom-right-radius: 5rpx;
+}
+
+.message.ai {
+  justify-content: flex-start;
+  margin-right: auto;
+}
+
+.message.ai text {
+  background-color: #e2e2e2;
+  color: #333;
+  border-bottom-left-radius: 5rpx;
+}
+
+.input-area {
+  display: flex;
+  padding: 20rpx;
+  border-top: 1rpx solid #eee;
+  background-color: #fff;
+}
+
+.input-box {
+  flex: 1;
+  height: 80rpx;
+  border: 1rpx solid #ddd;
+  border-radius: 40rpx;
+  padding: 0 30rpx;
+  font-size: 30rpx;
+  margin-right: 20rpx;
+}
+
+.send-button {
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 40rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 32rpx;
+  padding: 0 40rpx;
+}
+
+.send-button::after {
+  border: none;
+}
