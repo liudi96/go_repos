@@ -10,6 +10,7 @@ import (
 	"palu-wiki-backend/internal/service" // Import service package
 	"palu-wiki-backend/pkg/gemini"       // Import gemini package
 
+	"github.com/gin-contrib/cors" // Import cors middleware
 	"github.com/gin-gonic/gin"
 )
 
@@ -27,6 +28,26 @@ func main() {
 
 	gin.SetMode(gin.DebugMode) // Set Gin to debug mode for more detailed logs
 	r := gin.Default()
+
+	// Configure CORS middleware
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"}, // Allow all origins for development. In production, specify your admin domain.
+		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
+
+	// Configure CORS middleware
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"}, // Allow all origins for development. In production, specify your admin domain.
+		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
 
 	// Initialize repositories and services
 	guideRepo := repository.NewGuideRepository(repository.DB)
