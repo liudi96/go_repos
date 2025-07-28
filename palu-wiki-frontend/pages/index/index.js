@@ -10,9 +10,9 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     canIUseGetUserProfile: false,
     canIUseOpenData: wx.canIUse('open-data'), // 如需尝试获取用户信息可改为false
-    messages: [], // 存储聊天消息
-    inputValue: '', // 输入框内容
-    toView: '' // 滚动到指定消息
+    messages: [], // 存储聊天消息 (已废弃，AI聊天功能将迁移到独立页面)
+    inputValue: '', // 输入框内容 (已废弃)
+    toView: '' // 滚动到指定消息 (已废弃)
   },
   // 事件处理函数
   bindViewTap() {
@@ -55,52 +55,9 @@ Page({
     })
   },
 
-  onInput(e) {
-    this.setData({
-      inputValue: e.detail.value
-    })
-  },
-
-  sendMessage() {
-    const prompt = this.data.inputValue.trim()
-    if (!prompt) {
-      return
-    }
-
-    const newMessages = [...this.data.messages, { role: 'user', content: prompt }]
-    this.setData({
-      messages: newMessages,
-      inputValue: '',
-      toView: `msg-${newMessages.length - 1}` // 滚动到最新消息
-    })
-
-    wx.request({
-      url: `${app.globalData.backendUrl}/api/v1/gemini/generate`, // 使用全局配置的后端API地址
-      method: 'POST',
-      timeout: 30000, // 增加超时时间到30秒 (30000毫秒)
-      header: {
-        'Content-Type': 'application/json'
-      },
-      data: {
-        prompt: prompt
-      },
-      success: (res) => {
-        const aiResponse = res.data.content || '抱歉，AI未能生成内容。'
-        const updatedMessages = [...this.data.messages, { role: 'ai', content: aiResponse }]
-        this.setData({
-          messages: updatedMessages,
-          toView: `msg-${updatedMessages.length - 1}`
-        })
-      },
-      fail: (err) => {
-        console.error('请求失败', err)
-        const errorMessage = '请求AI服务失败，请稍后再试。'
-        const updatedMessages = [...this.data.messages, { role: 'ai', content: errorMessage }]
-        this.setData({
-          messages: updatedMessages,
-          toView: `msg-${updatedMessages.length - 1}`
-        })
-      }
+  goToChat() {
+    wx.navigateTo({
+      url: '/pages/chat/chat'
     })
   }
 })

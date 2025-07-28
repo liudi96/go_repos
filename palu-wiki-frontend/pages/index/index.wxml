@@ -26,18 +26,8 @@
     <text class="section-description">浏览AI为您创作的幻兽帕鲁攻略</text>
   </view>
 
-  <view class="chat-container">
-    <scroll-view scroll-y style="height: 300rpx; display: block; box-sizing: border-box" scroll-into-view="{{toView}}" scroll-with-animation="true" class="message-list">
-      <block wx:for="{{messages}}" wx:key="index">
-        <view id="msg-{{index}}" class="message {{item.role}}">
-          <text>{{item.content}}</text>
-        </view>
-      </block>
-    </scroll-view>
-
-    <view class="input-area">
-      <textarea class="input-box" placeholder="请输入您的问题..." bindinput="onInput" value="{{inputValue}}" auto-height show-confirm-bar="{{false}}" />
-      <button class="send-button" bindtap="sendMessage">发送</button>
-    </view>
+  <view class="section-card" bindtap="goToChat" style="height: 264rpx; display: flex; box-sizing: border-box; margin-top: 20rpx;">
+    <text class="section-title">AI 聊天</text>
+    <text class="section-description">与 AI 智能助手对话，获取即时帮助</text>
   </view>
 </view>
