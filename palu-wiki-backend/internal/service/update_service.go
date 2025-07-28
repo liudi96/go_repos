@@ -91,7 +91,10 @@ func (s *UpdateService) ProcessUpdates(updates []models.OfficialUpdate) error {
 			// Now, use Gemini to generate or update a guide based on this official update
 			prompt := fmt.Sprintf("你现在是【幻兽帕鲁】游戏的专属攻略创作AI。你的唯一职责是根据提供的攻略主题和相关信息，创作一篇极其准确、详细、全面且最新的幻兽帕鲁游戏攻略。严禁创作任何与幻兽帕鲁无关的内容。如果主题与幻兽帕鲁无关，或者你无法创作相关攻略，请直接回答“抱歉，我只能创作幻兽帕鲁相关的攻略。”\n\n攻略主题：%s\n相关内容：%s", update.Title, update.Content)
 
-			generatedContent, err := s.geminiClient.GenerateContent(context.Background(), prompt)
+			// For guide generation, we still use a single prompt, not a conversation history.
+			// So, we convert the prompt string to a single ChatMessage slice.
+			messages := []gemini.ChatMessage{{Role: "user", Content: prompt}}
+			generatedContent, err := s.geminiClient.GenerateContent(context.Background(), messages)
 			if err != nil {
 				log.Printf("Failed to generate guide content with Gemini for update '%s': %v", update.Title, err)
 				// Continue processing other updates even if Gemini fails for one

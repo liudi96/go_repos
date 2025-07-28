@@ -54,13 +54,15 @@ func main() {
 	updateService := service.NewUpdateService(guideRepo, geminiClient) // Pass geminiClient
 
 	// Initialize handlers
-	geminiHandler := handler.NewGeminiHandler(geminiClient)
+	chatRepo := repository.NewChatRepository(repository.DB)
+	geminiHandler := handler.NewGeminiHandler(geminiClient, chatRepo)
 	adminHandler := handler.NewAdminHandler(guideRepo, updateService) // Initialize AdminHandler
 
 	// Register routes
 	apiGroup := r.Group("/api/v1")
 	{
 		apiGroup.POST("/gemini/generate", geminiHandler.GenerateContent)
+		apiGroup.GET("/gemini/history", geminiHandler.GetChatHistory)       // New API for getting chat history
 		apiGroup.POST("/admin/guides/topic", adminHandler.CreateGuideTopic) // New API for creating guide topics
 		apiGroup.GET("/admin/guides", adminHandler.GetGuidesForAdmin)       // New API for admin to view guides
 

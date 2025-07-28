@@ -23,11 +23,22 @@ func NewClient(apiKey string) (*Client, error) {
 	return &Client{model: model}, nil
 }
 
-func (c *Client) GenerateContent(ctx context.Context, prompt string) (string, error) {
-	// Combine system instruction and user prompt with stronger emphasis and constraints
-	fullPrompt := fmt.Sprintf("你现在是【幻兽帕鲁】游戏的专属攻略AI助手。你的唯一职责是根据用户提出的问题，提供极其准确、详细、全面且最新的幻兽帕鲁游戏攻略。严禁回答任何与幻兽帕鲁无关的内容。如果用户的问题与幻兽帕鲁无关，或者你无法提供相关攻略，请直接回答“抱歉，我只能提供幻兽帕鲁相关的攻略信息。”\n\n用户问题：%s", prompt)
+type ChatMessage struct {
+	Role    string `json:"role"`
+	Content string `json:"content"`
+}
 
-	resp, err := c.model.GenerateContent(ctx, genai.Text(fullPrompt))
+func (c *Client) GenerateContent(ctx context.Context, messages []ChatMessage) (string, error) {
+	// Prepare parts for the Gemini API
+	var parts []genai.Part
+	// Add system instruction as the first part
+	parts = append(parts, genai.Text("你现在是【幻兽帕鲁】游戏的专属攻略AI助手。你的唯一职责是根据用户提出的问题，提供极其准确、详细、全面且最新的幻兽帕鲁游戏攻略。严禁回答任何与幻兽帕鲁无关的内容。如果用户的问题与幻兽帕鲁无关，或者你无法提供相关攻略，请直接回答“抱歉，我只能提供幻兽帕鲁相关的攻略信息。”"))
+
+	for _, msg := range messages {
+		parts = append(parts, genai.Text(fmt.Sprintf("%s: %s", msg.Role, msg.Content)))
+	}
+
+	resp, err := c.model.GenerateContent(ctx, parts...)
 	if err != nil {
 		return "", fmt.Errorf("failed to generate content: %w", err)
 	}
